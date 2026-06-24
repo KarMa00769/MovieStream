@@ -1,0 +1,173 @@
+body {
+  background: #080808;
+  color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar-movie {
+  background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.45));
+  backdrop-filter: blur(8px);
+}
+
+.navbar-brand span {
+  color: #e50914;
+}
+
+.search-box,
+.filter-box {
+  background: #181818;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.search-box:focus,
+.filter-box:focus,
+.form-control:focus,
+.form-select:focus {
+  background: #181818;
+  color: #fff;
+  border-color: #e50914;
+  box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+}
+
+.hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.73) 42%, rgba(0,0,0,0.22) 100%),
+    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1600&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-text {
+  max-width: 720px;
+  color: #d0d0d0;
+}
+
+.movie-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.movie-meta span {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: #f1f1f1;
+}
+
+.section-title {
+  font-weight: 800;
+  border-left: 6px solid #e50914;
+  padding-left: 14px;
+}
+
+.movie-card {
+  background: #141414;
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.035);
+  box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  background: #222;
+}
+
+.movie-card .card-body {
+  min-height: 235px;
+}
+
+.rating {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.genre-badge {
+  background: rgba(229, 9, 20, 0.15);
+  color: #ff6b72;
+  border: 1px solid rgba(229, 9, 20, 0.35);
+}
+
+.admin-card {
+  background: #141414;
+  color: #f5f5f5;
+  border: 1px solid #282828;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.form-control,
+.form-select,
+textarea {
+  background: #1f1f1f !important;
+  color: #fff !important;
+  border: 1px solid #333 !important;
+}
+
+.form-control::placeholder {
+  color: #777;
+}
+
+.table-dark {
+  --bs-table-bg: #141414;
+}
+
+.empty-state {
+  border: 1px dashed #444;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  color: #aaa;
+  background: #111;
+}
+
+.modal-movie {
+  background: #141414;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.modal-poster {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.footer {
+  background: #050505;
+  color: #888;
+  border-top: 1px solid #181818;
+}
+
+.btn-danger {
+  background: #e50914;
+  border-color: #e50914;
+}
+
+.btn-danger:hover {
+  background: #b20710;
+  border-color: #b20710;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    text-align: center;
+  }
+
+  .movie-poster {
+    height: 300px;
+  }
+}

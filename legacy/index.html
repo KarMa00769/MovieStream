@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MovieStream | Sistema tipo Netflix</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-movie">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand fw-bold fs-3" href="#inicio">
+        <span>Movie</span>Stream
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-lg-4 me-auto">
+          <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#favoritos">Favoritos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#admin">Administrar</a></li>
+        </ul>
+
+        <div class="d-flex gap-2">
+          <input id="buscarPelicula" class="form-control form-control-sm search-box" type="search" placeholder="Buscar película...">
+          <button id="btnBuscar" class="btn btn-danger btn-sm">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header id="inicio" class="hero">
+    <div class="hero-content">
+      <div class="container-fluid px-lg-5">
+        <div class="row align-items-center min-vh-100">
+          <div class="col-lg-7">
+            <span class="badge bg-danger mb-3">Película destacada</span>
+            <h1 class="display-2 fw-bold mb-3">Interstellar</h1>
+            <p class="lead hero-text">
+              Una experiencia cinematográfica sobre exploración espacial, sacrificio y esperanza para la humanidad.
+            </p>
+
+            <div class="movie-meta mb-4">
+              <span>2014</span>
+              <span>169 min</span>
+              <span>Ciencia ficción</span>
+              <span>★ 8.7</span>
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap">
+              <button class="btn btn-danger btn-lg" onclick="abrirDetalle(1)">
+                <i class="bi bi-play-fill"></i> Ver detalle
+              </button>
+              <button class="btn btn-outline-light btn-lg" onclick="agregarFavorito(1)">
+                <i class="bi bi-plus-lg"></i> Favorito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container-fluid px-lg-5 py-5">
+    <section id="catalogo" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="section-title">Catálogo de películas</h2>
+          <p class="text-secondary mb-0">Frontend listo para consumir una API REST desarrollada por los alumnos.</p>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <select id="filtroGenero" class="form-select form-select-sm filter-box">
+            <option value="">Todos los géneros</option>
+          </select>
+
+          <select id="ordenCalificacion" class="form-select form-select-sm filter-box">
+            <option value="">Ordenar</option>
+            <option value="desc">Mayor calificación</option>
+            <option value="asc">Menor calificación</option>
+          </select>
+
+          <button id="btnActualizar" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-arrow-clockwise"></i> Actualizar
+          </button>
+        </div>
+      </div>
+
+      <div id="contenedorPeliculas" class="row g-4"></div>
+    </section>
+
+    <section id="favoritos" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <h2 class="section-title">Mis favoritos</h2>
+        <button id="btnLimpiarFavoritos" class="btn btn-outline-danger btn-sm">
+          <i class="bi bi-trash"></i> Limpiar favoritos
+        </button>
+      </div>
+
+      <div id="contenedorFavoritos" class="row g-4"></div>
+    </section>
+
+    <section id="admin" class="mb-5">
+      <h2 class="section-title mb-4">Panel de administración</h2>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card admin-card">
+            <div class="card-header bg-danger text-white fw-bold">
+              Registrar / Editar película
+            </div>
+            <div class="card-body">
+              <form id="formPelicula">
+                <input type="hidden" id="peliculaId">
+
+                <div class="mb-3">
+                  <label class="form-label">Título</label>
+                  <input type="text" id="titulo" class="form-control" required>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Género</label>
+                    <input type="text" id="genero" class="form-control" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Año</label>
+                    <input type="number" id="anio" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Duración</label>
+                    <input type="text" id="duracion" class="form-control" placeholder="120 min" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Calificación</label>
+                    <input type="number" id="calificacion" class="form-control" min="0" max="10" step="0.1" required>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Director</label>
+                  <input type="text" id="director" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">URL del póster</label>
+                  <input type="url" id="poster" class="form-control" placeholder="https://...">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Descripción</label>
+                  <textarea id="descripcion" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button class="btn btn-danger" type="submit">
+                    <i class="bi bi-save"></i> Guardar película
+                  </button>
+                  <button class="btn btn-outline-light" type="button" id="btnCancelarEdicion">
+                    Cancelar edición
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card admin-card">
+            <div class="card-header bg-dark text-white fw-bold">
+              Películas registradas
+            </div>
+            <div class="table-responsive">
+              <table class="table table-dark table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Género</th>
+                    <th>Año</th>
+                    <th>Rating</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaPeliculas"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal fade" id="modalDetalle" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content modal-movie">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="modalTitulo">Detalle de película</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalContenido"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer text-center py-4">
+    <p class="mb-0">MovieStream | Práctica de Frontend + Backend + API REST</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
