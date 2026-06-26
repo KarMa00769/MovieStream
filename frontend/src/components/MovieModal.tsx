@@ -59,7 +59,7 @@ const MovieModal = ({ movie, onClose }: Props) => {
       setIsUploading(true);
       setUploadError('');
       try {
-        const uploaded = await uploadMovieVideo(movie, e.target.files[0]);
+        const uploaded = await uploadMovieVideo(movie, e.target.files[0], localMovie?.id);
         setLocalMovie(uploaded);
       } catch {
         setUploadError('Error al subir el video. Verifica el formato (MP4 o WebM).');

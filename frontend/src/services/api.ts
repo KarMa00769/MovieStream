@@ -25,7 +25,7 @@ export const getLocalMovie = async (imdbID: string): Promise<LocalMovieResponse 
   return data.length > 0 ? data[0] : null;
 };
 
-export const uploadMovieVideo = async (movie: OMDbMovieDetail, videoFile: File): Promise<LocalMovieResponse> => {
+export const uploadMovieVideo = async (movie: OMDbMovieDetail, videoFile: File, localId?: number): Promise<LocalMovieResponse> => {
   const formData = new FormData();
   formData.append('imdb_id', movie.imdbID);
   formData.append('titulo', movie.Title);
@@ -39,8 +39,12 @@ export const uploadMovieVideo = async (movie: OMDbMovieDetail, videoFile: File):
   if (movie.Poster !== 'N/A') formData.append('poster', movie.Poster);
   formData.append('video', videoFile);
 
-  const response = await fetch(API_URL, {
-    method: 'POST',
+  const baseUrl = API_URL.endsWith('/') ? API_URL : `${API_URL}/`;
+  const url = localId ? `${baseUrl}${localId}/` : baseUrl;
+  const method = localId ? 'PATCH' : 'POST';
+
+  const response = await fetch(url, {
+    method,
     body: formData,
   });
 
