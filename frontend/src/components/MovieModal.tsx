@@ -43,10 +43,12 @@ const MovieModal = ({ movie, onClose }: Props) => {
           <div className="modal-content text-white shadow-lg">
             
             {isPlaying && localMovie?.video ? (
-              <div className="ratio ratio-16x9 position-relative bg-black rounded">
-                <video controls autoPlay src={localMovie.video} className="w-100 rounded" />
+              <div className="position-relative bg-black rounded">
+                <div className="ratio ratio-16x9">
+                  <video controls autoPlay src={localMovie.video} className="w-100 rounded" />
+                </div>
                 <button 
-                  className="btn btn-outline-brand position-absolute top-0 end-0 m-3 z-3" 
+                  className="btn btn-brand position-absolute top-0 end-0 m-3 z-3" 
                   onClick={() => setIsPlaying(false)}
                 >
                   <i className="bi bi-x-lg"></i> Cerrar
