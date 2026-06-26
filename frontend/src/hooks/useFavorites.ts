@@ -1,38 +1,49 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import type { OMDbMovieDetail } from '../types/movie';
 
-export const useFavorites = () => {
-  const [favorites, setFavorites] = useState<OMDbMovieDetail[]>([]);
+const STORAGE_KEY = 'favorites';
 
-  useEffect(() => {
-    const saved = localStorage.getItem('favorites');
-    if (saved) {
-      try {
-        setFavorites(JSON.parse(saved));
-      } catch (e) {
-        console.error('Error parsing favorites', e);
-      }
+const loadFavorites = (): OMDbMovieDetail[] => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+    return [];
+  }
+};
+
+export const useFavorites = () => {
+  const [favorites, setFavorites] = useState<OMDbMovieDetail[]>(loadFavorites);
+
+  const persist = (items: OMDbMovieDetail[]) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      console.error('localStorage quota exceeded');
     }
+  };
+
+  const addFavorite = useCallback((movie: OMDbMovieDetail) => {
+    setFavorites(prev => {
+      if (prev.some(fav => fav.imdbID === movie.imdbID)) return prev;
+      const updated = [...prev, movie];
+      persist(updated);
+      return updated;
+    });
   }, []);
 
-  const addFavorite = (movie: OMDbMovieDetail) => {
-    const exists = favorites.some((fav) => fav.imdbID === movie.imdbID);
-    if (!exists) {
-      const updatedFavorites = [...favorites, movie];
-      setFavorites(updatedFavorites);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    }
-  };
+  const removeFavorite = useCallback((imdbID: string) => {
+    setFavorites(prev => {
+      const updated = prev.filter(fav => fav.imdbID !== imdbID);
+      persist(updated);
+      return updated;
+    });
+  }, []);
 
-  const removeFavorite = (imdbID: string) => {
-    const updatedFavorites = favorites.filter((fav) => fav.imdbID !== imdbID);
-    setFavorites(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  };
-
-  const isFavorite = (imdbID: string) => {
-    return favorites.some((fav) => fav.imdbID === imdbID);
-  };
+  const isFavorite = useCallback((imdbID: string) => {
+    return favorites.some(fav => fav.imdbID === imdbID);
+  }, [favorites]);
 
   return { favorites, addFavorite, removeFavorite, isFavorite };
 };

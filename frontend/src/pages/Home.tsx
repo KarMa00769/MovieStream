@@ -14,7 +14,8 @@ const Home = () => {
   const [error, setError] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<OMDbMovieDetail | null>(null);
-  
+  const [modalLoading, setModalLoading] = useState(false);
+
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
   const handleSearch = async (query: string) => {
@@ -29,7 +30,7 @@ const Home = () => {
         setMovies([]);
         setError(data.Error || 'No se encontraron resultados.');
       }
-    } catch (err) {
+    } catch {
       setError('Error al conectar con OMDb API.');
     } finally {
       setLoading(false);
@@ -37,11 +38,14 @@ const Home = () => {
   };
 
   const handleViewDetails = async (id: string) => {
+    setModalLoading(true);
     try {
       const details = await getMovieDetails(id);
       setSelectedMovie(details);
-    } catch (err) {
-      alert('Error cargando detalles');
+    } catch {
+      setSelectedMovie(null);
+    } finally {
+      setModalLoading(false);
     }
   };
 
@@ -52,8 +56,8 @@ const Home = () => {
       try {
         const details = await getMovieDetails(id);
         addFavorite(details);
-      } catch (err) {
-        alert('Error al agregar favorito');
+      } catch {
+        /* silently fail - details fetch is best-effort for favorites */
       }
     }
   };
@@ -63,13 +67,17 @@ const Home = () => {
       <Banner />
       <div className="container-fluid px-4 px-lg-5 py-5">
         <SearchBar onSearch={handleSearch} />
-        
+
         {loading && <div className="spinner-border text-brand mb-4" role="status"><span className="visually-hidden">Cargando...</span></div>}
-        {error && <div className="alert alert-dark border-brand text-brand mb-4">{error}</div>}
-        
+        {error && <div className="alert alert-dark border-brand text-brand mb-4" role="alert">{error}</div>}
+
+        {modalLoading && (
+          <div className="modal-backdrop fade show" aria-hidden="true" style={{ opacity: 0.5 }}></div>
+        )}
+
         {hasSearched ? (
           <>
-            <h3 className="text-light mb-4">Resultados de búsqueda</h3>
+            <h3 className="text-light mb-4">Resultados de b&uacute;squeda</h3>
             <div className="row g-4">
               {movies.map((movie) => (
                 <div key={movie.imdbID} className="col-md-4 col-lg-3">
@@ -85,9 +93,9 @@ const Home = () => {
           </>
         ) : (
           <div>
-            <Row title="Éxitos de Ciencia Ficción" query="Interstellar" onViewDetails={handleViewDetails} />
-            <Row title="Acción y Superhéroes" query="Batman" onViewDetails={handleViewDetails} />
-            <Row title="Sagas Épicas" query="Star Wars" onViewDetails={handleViewDetails} />
+            <Row title="&Eacute;xitos de Ciencia Ficci&oacute;n" query="Interstellar" onViewDetails={handleViewDetails} />
+            <Row title="Acci&oacute;n y Superh&eacute;roes" query="Batman" onViewDetails={handleViewDetails} />
+            <Row title="Sagas &Eacute;picas" query="Star Wars" onViewDetails={handleViewDetails} />
             <Row title="Terror y Suspenso" query="Horror" onViewDetails={handleViewDetails} />
           </div>
         )}

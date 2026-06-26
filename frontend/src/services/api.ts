@@ -2,18 +2,34 @@ import type { OMDbMovieDetail } from '../types/movie';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/peliculas/';
 
-export const getLocalMovie = async (imdbID: string) => {
-  const response = await fetch(`${API_URL}?imdb_id=${imdbID}`);
-  const data = await response.json();
+export interface LocalMovieResponse {
+  id: number;
+  imdb_id: string;
+  titulo: string;
+  genero: string;
+  anio: number;
+  duracion: string;
+  director: string;
+  calificacion: number;
+  descripcion: string;
+  poster: string;
+  video: string | null;
+}
+
+export const getLocalMovie = async (imdbID: string): Promise<LocalMovieResponse | null> => {
+  const response = await fetch(`${API_URL}?imdb_id=${encodeURIComponent(imdbID)}`);
+  if (!response.ok) {
+    throw new Error(`Error fetching local movie: ${response.status}`);
+  }
+  const data: LocalMovieResponse[] = await response.json();
   return data.length > 0 ? data[0] : null;
 };
 
-export const uploadMovieVideo = async (movie: OMDbMovieDetail, videoFile: File) => {
+export const uploadMovieVideo = async (movie: OMDbMovieDetail, videoFile: File): Promise<LocalMovieResponse> => {
   const formData = new FormData();
   formData.append('imdb_id', movie.imdbID);
   formData.append('titulo', movie.Title);
   formData.append('genero', movie.Genre);
-  // Extracción simple de año para campos numéricos
   const yearMatch = movie.Year.match(/\d{4}/);
   formData.append('anio', yearMatch ? yearMatch[0] : new Date().getFullYear().toString());
   formData.append('duracion', movie.Runtime);
