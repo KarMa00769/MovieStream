@@ -9,4 +9,4 @@ class MovieSerializer(serializers.ModelSerializer):
             'id', 'imdb_id', 'titulo', 'genero', 'anio', 'duracion',
             'director', 'calificacion', 'descripcion', 'poster', 'video'
         ]
-        read_only_fields = ['id', 'imdb_id']
+        read_only_fields = ['id']

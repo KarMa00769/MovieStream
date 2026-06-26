@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Banner = () => {
   return (
     <section
@@ -27,9 +29,9 @@ const Banner = () => {
               <a href="#search-section" className="btn btn-brand px-4 py-2 d-flex align-items-center" style={{ fontSize: '1.1rem' }}>
                 <i className="bi bi-play-fill fs-3 me-2" style={{ lineHeight: '0' }}></i> Empezar a ver
               </a>
-              <a href="/favorites" className="btn btn-outline-brand px-4 py-2 d-flex align-items-center" style={{ fontSize: '1.1rem' }}>
+              <Link to="/favorites" className="btn btn-outline-brand px-4 py-2 d-flex align-items-center" style={{ fontSize: '1.1rem' }}>
                 <i className="bi bi-bookmark fs-4 me-2" style={{ lineHeight: '0' }}></i> Mi Lista
-              </a>
+              </Link>
             </div>
           </div>
         </div>

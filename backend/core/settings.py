@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'movies',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -95,6 +96,9 @@ CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS', default=['http://localhost:51
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
+FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
