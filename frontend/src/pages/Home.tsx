@@ -37,6 +37,12 @@ const Home = () => {
     }
   };
 
+  const handleResetSearch = () => {
+    setHasSearched(false);
+    setMovies([]);
+    setError('');
+  };
+
   const handleViewDetails = async (id: string) => {
     setModalLoading(true);
     try {
@@ -71,13 +77,14 @@ const Home = () => {
         {loading && <div className="spinner-border text-brand mb-4" role="status"><span className="visually-hidden">Cargando...</span></div>}
         {error && <div className="alert alert-dark border-brand text-brand mb-4" role="alert">{error}</div>}
 
-        {modalLoading && (
-          <div className="modal-backdrop fade show" aria-hidden="true" style={{ opacity: 0.5 }}></div>
-        )}
-
         {hasSearched ? (
           <>
-            <h3 className="text-light mb-4">Resultados de b&uacute;squeda</h3>
+            <div className="d-flex align-items-center gap-3 mb-4">
+              <h3 className="text-light mb-0">Resultados de b&uacute;squeda</h3>
+              <button className="btn btn-outline-brand btn-sm" onClick={handleResetSearch}>
+                <i className="bi bi-arrow-left me-1"></i> Volver al cat&aacute;logo
+              </button>
+            </div>
             <div className="row g-4">
               {movies.map((movie) => (
                 <div key={movie.imdbID} className="col-md-4 col-lg-3">

@@ -3,12 +3,16 @@ from django.core.validators import MinValueValidator, MaxValueValidator, FileExt
 from datetime import datetime
 
 
+def _max_year():
+    return datetime.now().year + 5
+
+
 class Movie(models.Model):
     imdb_id = models.CharField(max_length=50, blank=True, null=True, unique=True, db_index=True)
     titulo = models.CharField(max_length=255, db_index=True)
     genero = models.CharField(max_length=100)
     anio = models.IntegerField(
-        validators=[MinValueValidator(1888), MaxValueValidator(datetime.now().year + 5)]
+        validators=[MinValueValidator(1888), MaxValueValidator(_max_year)]
     )
     duracion = models.CharField(max_length=50)
     director = models.CharField(max_length=255, db_index=True)

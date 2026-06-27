@@ -12,11 +12,13 @@ const assertApiKey = () => {
 export const searchMovies = async (query: string): Promise<OMDbSearchResponse> => {
   assertApiKey();
   const response = await fetch(`${BASE_URL}?s=${encodeURIComponent(query)}&apikey=${API_KEY}`);
+  if (!response.ok) throw new Error(`OMDb error: ${response.status}`);
   return await response.json();
 };
 
 export const getMovieDetails = async (imdbID: string): Promise<OMDbMovieDetail> => {
   assertApiKey();
   const response = await fetch(`${BASE_URL}?i=${encodeURIComponent(imdbID)}&apikey=${API_KEY}`);
+  if (!response.ok) throw new Error(`OMDb error: ${response.status}`);
   return await response.json();
 };

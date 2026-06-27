@@ -23,7 +23,8 @@ const MovieModal = ({ movie, onClose }: Props) => {
   useEffect(() => {
     if (!movie) return;
     let cancelled = false;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsPlaying(false); // reset player when switching movies
+    setUploadError('');
     setIsLoadingLocal(true);
     getLocalMovie(movie.imdbID)
       .then(data => { if (!cancelled) setLocalMovie(data); })
