@@ -3,15 +3,6 @@ from .models import Movie
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    # BUG-2 fix: return absolute URL so frontend doesn't need to manually build it
-    video = serializers.SerializerMethodField()
-
-    def get_video(self, obj):
-        request = self.context.get('request')
-        if obj.video and request:
-            return request.build_absolute_uri(obj.video.url)
-        return None
-
     class Meta:
         model = Movie
         fields = [
@@ -19,3 +10,11 @@ class MovieSerializer(serializers.ModelSerializer):
             'director', 'calificacion', 'descripcion', 'poster', 'video'
         ]
         read_only_fields = ['id']
+
+    def to_representation(self, instance):
+        """Override output: return absolute video URL instead of relative path."""
+        ret = super().to_representation(instance)
+        request = self.context.get('request')
+        if instance.video and request:
+            ret['video'] = request.build_absolute_uri(instance.video.url)
+        return ret

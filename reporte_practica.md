@@ -4,10 +4,14 @@
 ---
 
 > **Materia:** Tecnologías y Aplicaciones en Internet  
-> **Alumno:** [Tu Nombre Completo]  
-> **Grupo:** [Tu Grupo]  
+
+> **Alumno:** José Manuel Ortiz Medrano, Carlos Arturo Orozco Huitron
+
+> **Grupo:** ISCO8A
+
 > **Fecha de entrega:** 26 de Junio de 2026  
-> **Institución:** [Nombre de tu escuela / TECNM]
+
+> **Institución:** Universidad Politecnica de Aguacalientes
 
 ---
 

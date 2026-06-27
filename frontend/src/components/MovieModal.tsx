@@ -23,8 +23,9 @@ const MovieModal = ({ movie, onClose }: Props) => {
   useEffect(() => {
     if (!movie) return;
     let cancelled = false;
-    setIsPlaying(false); // reset player when switching movies
+    setIsPlaying(false);    // reset player when switching movies
     setUploadError('');
+    setLocalMovie(null);    // clear stale data from previous movie
     setIsLoadingLocal(true);
     getLocalMovie(movie.imdbID)
       .then(data => { if (!cancelled) setLocalMovie(data); })
